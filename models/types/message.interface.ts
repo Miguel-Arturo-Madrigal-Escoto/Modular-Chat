@@ -1,7 +1,6 @@
-import { Schema } from 'mongoose';
 
 export interface IMessageSchema {
-    from: Schema.Types.ObjectId;
-    to: Schema.Types.ObjectId;
+    from: number;
+    to: number;
     text: string;
 }
