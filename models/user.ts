@@ -2,7 +2,8 @@ import { model, Schema } from 'mongoose';
 import { IUserSchema } from './types/user.interface';
 
 const UserSchema = new Schema<IUserSchema>({
-    base_user: {
+    // Note: Django base_user id
+    base_user: { 
         type: Number,
         required: true
     },

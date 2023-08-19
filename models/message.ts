@@ -3,11 +3,11 @@ import { IMessageSchema } from './types/message.interface';
 
 const MessageSchema = new Schema<IMessageSchema>({
     from: {
-        type: Schema.Types.ObjectId,
+        type: Number,
         required: true
     },
     to: {
-        type: Schema.Types.ObjectId,
+        type: Number,
         required: true
     },
     text: {
