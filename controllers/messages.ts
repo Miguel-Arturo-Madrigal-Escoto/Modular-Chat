@@ -1,17 +1,17 @@
 import { Request, Response } from 'express';
 import Message from '../models/message';
-import { IChatMessagesParams } from './types/messages.interfaces';
+import { IChatMessagesBody, IChatMessagesParams } from './types/messages.interfaces';
 
 /**
  * Retrieves all the messages (ordered) where the authenticated user (JWT)
  * participates with the other person (to - param.)
  *
- * @param {express.Request} req - The incoming request to the endpoint.
- * @param {express.Response} res - The response object.
+ * @param {Request} req - The incoming request to the endpoint.
+ * @param {Response} res - The response object.
  * @return {json} json with all of the messages described above.
  * 
  */
-export const chatMessagesController = async (req: Request<IChatMessagesParams>, res: Response) => {
+export const chatMessagesController = async (req: Request<IChatMessagesParams,{},IChatMessagesBody>, res: Response) => {
     try {
         // TODO: base_user (Django base_user id) will be extracted from the JWT, not from the req.body.
         const from = req.body.base_user;
