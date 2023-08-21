@@ -22,7 +22,7 @@ export const chatMessagesController = async (req: Request<IChatMessagesParams,{}
                 { from, to }, 
                 { from: to, to: from }
             ]
-        }).sort({ createdAt: 'descending' });
+        }).sort({ createdAt: 'asc' });
 
         return res.json({
             ok: true,

@@ -34,10 +34,10 @@ class Socket {
             socket.join(`room ${ base_user }`);
             
             // TODO: escuchar envio de mensajes del cliente
-            socket.on('send-new-message', async data => {
+            socket.on('new-message', async data => {
                 const newMessage = await saveMessage(data);
-                this.io.to(`room ${ newMessage.from }`).emit('received-new-message', newMessage);
-                this.io.to(`room ${ newMessage.to }`).emit('received-new-message', newMessage);
+                this.io.to(`room ${ newMessage.from }`).emit('new-message', newMessage);
+                this.io.to(`room ${ newMessage.to }`).emit('new-message', newMessage);
             })
 
             // TODO: desconectar al usuario (online: false en el modelo)
