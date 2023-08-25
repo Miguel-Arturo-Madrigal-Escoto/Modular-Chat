@@ -11,6 +11,11 @@ const UserSchema = new Schema<IUserSchema>({
         type: String,
         required: true
     },
+    role: {
+        type: String,
+        enum: ['user', 'company'],
+        required: true
+    },
     online: {
         type: Boolean,
         default: false
