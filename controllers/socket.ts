@@ -15,6 +15,6 @@ export const getUsers = async () => {
 
 export const saveMessage = async (message: IMessageSchema) => {
     const newMessage = new Message(message)
-    newMessage.save();
-    return newMessage;
+    const savedMessage = await newMessage.save();
+    return savedMessage;
 }
