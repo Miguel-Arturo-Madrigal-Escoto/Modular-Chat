@@ -7,6 +7,10 @@ const UserSchema = new Schema<IUserSchema>({
         type: Number,
         required: true
     },
+    name: { 
+        type: String,
+        required: true
+    },
     email: {
         type: String,
         required: true

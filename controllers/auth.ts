@@ -16,7 +16,7 @@ export const signUpController = async (req: Request<{},{},ISignUpBody>, res: Res
     try {
         // TODO: base_user (Django base_user id) will be extracted from the JWT, not from the req.body.
 
-        const { base_user, email, role } = req.body;
+        const { base_user, name, email, role } = req.body;
         const user = await User.findOne({ 
             base_user, 
             email
@@ -28,13 +28,15 @@ export const signUpController = async (req: Request<{},{},ISignUpBody>, res: Res
                 ok: true,
                 id: user.id,
                 base_user: user.base_user,
-                email: user.email
+                email: user.email,
+                name: user.name
             });
         } 
         else {
             // Create a user instance and save it into the collection
             const newUser = new User({
                 base_user,
+                name,
                 email,
                 role
             });
@@ -44,7 +46,8 @@ export const signUpController = async (req: Request<{},{},ISignUpBody>, res: Res
                 ok: true,
                 id: newUser.id,
                 base_user: newUser.base_user,
-                email: newUser.email
+                email: newUser.email,
+                name: newUser.name
             });
         }
 

@@ -1,6 +1,6 @@
 import socketio from 'socket.io';
 import { validateJWTSocket } from '../helpers/validateJWTSocket';
-import { getMatchedUser, getUsers, saveMessage, userConnect } from '../controllers/socket';
+import { getUser, getUsers, saveMessage, userConnect } from '../controllers/socket';
 
 class Socket {
     private io: socketio.Server;
@@ -36,16 +36,18 @@ class Socket {
             // * escuchar envio de mensajes del cliente
             socket.on('new-message', async data => {
                 const newMessage = await saveMessage(data);
-                this.io.to(`room ${ newMessage.from }`).emit('new-message', newMessage);
-                this.io.to(`room ${ newMessage.to }`).emit('new-message', newMessage);
+                const from = await getUser(newMessage.from);
+                const to = await getUser(newMessage.to);
+                this.io.to(`room ${ newMessage.from }`).emit('new-message', { createdAt: newMessage.createdAt, from: newMessage.from, to: newMessage.to, text: newMessage.text, name: to?.name });
+                this.io.to(`room ${ newMessage.to }`).emit('new-message', { createdAt: newMessage.createdAt, from: newMessage.from, to: newMessage.to, text: newMessage.text, name: from?.name });
             })
 
             // * escuchar si hay un nuevo match
             socket.on('new-match', async data => {
-                const from = await getMatchedUser(data.from);
-                const to = await getMatchedUser(data.to);
-                this.io.to(`room ${ from?.base_user }`).emit('new-match')
-                this.io.to(`room ${ to?.base_user }`).emit('new-match')
+                const from = await getUser(data.from);
+                const to = await getUser(data.to);
+                this.io.to(`room ${ from?.base_user }`).emit('new-match', { name: to?.name })
+                this.io.to(`room ${ to?.base_user }`).emit('new-match', { name: from?.name })
             })
 
             // * desconectar al usuario (online: false en el modelo)           

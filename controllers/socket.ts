@@ -19,4 +19,4 @@ export const saveMessage = async (message: IMessageSchema) => {
     return savedMessage;
 }
 
-export const getMatchedUser = async (base_user: number) => await User.findOne({ base_user });
+export const getUser = async (base_user: number) => await User.findOne({ base_user });
