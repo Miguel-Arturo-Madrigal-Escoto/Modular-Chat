@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { ISignUpBody } from './types/auth.interfaces';
+import { ISignUpBody, IUpdateUser } from './types/auth.interfaces';
 import User from '../models/user';
 
 /**
@@ -14,8 +14,6 @@ import User from '../models/user';
  */
 export const signUpController = async (req: Request<{},{},ISignUpBody>, res: Response) => {
     try {
-        // TODO: base_user (Django base_user id) will be extracted from the JWT, not from the req.body.
-
         const { base_user, name, email, role } = req.body;
         const user = await User.findOne({ 
             base_user, 
@@ -58,4 +56,20 @@ export const signUpController = async (req: Request<{},{},ISignUpBody>, res: Res
             msg: 'An unexpected error ocurred. Please try again or contact the administrator.'
         });
     } 
+}
+
+export const updateUserController = async (req: Request<{},{},IUpdateUser>, res: Response) => {
+    try {
+        const { base_user, name } = req.body;
+
+        await User.findOneAndUpdate({ base_user }, { name }, { new: true });
+
+        return res.status(200).json();
+
+    } catch (error) {
+        return res.status(500).json({
+            ok: false,
+            msg: 'An unexpected error ocurred. Please try again or contact the administrator.'
+        });
+    }
 }

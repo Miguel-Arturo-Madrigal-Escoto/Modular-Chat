@@ -5,3 +5,8 @@ export interface ISignUpBody {
     email: string;
     role: string;
 }
+
+export interface IUpdateUser {
+    base_user: number;
+    name: string;
+}
