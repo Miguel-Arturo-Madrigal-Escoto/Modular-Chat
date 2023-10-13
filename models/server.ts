@@ -7,6 +7,7 @@ import { databaseConnect } from '../database/connection';
 import Socket from './socket'; // socket server
 import authRoutes from '../routes/auth'
 import messagesRoutes from '../routes/messages'
+import healthRoute from '../routes/health';
 
 class Server {
     private app: Application;
@@ -17,6 +18,7 @@ class Server {
     private apiRoutes = {
         auth: '/api/auth',
         messages: '/api/messages',
+        health: '/'
     }
 
     constructor(){
@@ -46,6 +48,7 @@ class Server {
     private routes(){
         this.app.use(this.apiRoutes.auth, authRoutes);
         this.app.use(this.apiRoutes.messages, messagesRoutes);
+        this.app.use(this.apiRoutes.health, healthRoute);
     }
 
     public listen(){
